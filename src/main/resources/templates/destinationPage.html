@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Destinations Page</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f4;
+    }
+    h1, h2 {
+      text-align: center;
+      color: #333;
+    }
+    .container {
+      width: 80%;
+      margin: 0 auto;
+      padding: 20px;
+      background: white;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      border-radius: 8px;
+    }
+    .destination-list {
+      margin-bottom: 20px;
+    }
+    .destination {
+      padding: 10px;
+      border-bottom: 1px solid #ddd;
+    }
+    .destination:last-child {
+      border-bottom: none;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    input[type="text"],
+    textarea {
+      width: 100%;
+      max-width: 400px;
+      padding: 10px;
+      margin: 5px 0;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    button {
+      background-color: #5cb85c;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #4cae4c;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <h1>Destinations</h1>
+
+  <div class="destination-list" th:each="destination : ${destinations}">
+    <div class="destination">
+      <span th:text="'ID: ' + ${destination.destinationId}"></span> -
+      <span th:text="${destination.name}"></span> -
+      <span th:text="${destination.country}"></span> -
+      <span th:text="${destination.description}"></span>
+    </div>
+  </div>
+
+  <h2>Add Destination</h2>
+  <form th:action="@{/api/destinations}" method="post">
+    <input type="text" name="name" placeholder="Название направления" required>
+    <input type="text" name="country" placeholder="Страна" required>
+    <textarea name="description" placeholder="Описание" required></textarea>
+    <button type="submit">Добавить</button>
+  </form>
+</div>
+</body>
+</html>

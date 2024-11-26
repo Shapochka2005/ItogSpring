@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: Shapkin_spring
+  datasource:
+    url: jdbc:postgresql://localhost:5432/Shapkin_spring
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true  # Включить вывод SQL-запросов в консоль
+  devtools:
+    restart:
+      enabled: true
+server:
+  port: 8080  # Порт, на котором будет работать ваше приложение

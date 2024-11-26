@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Flights Page</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f4;
+    }
+    h1, h2 {
+      text-align: center;
+      color: #333;
+    }
+    .container {
+      width: 80%;
+      margin: 0 auto;
+      padding: 20px;
+      background: white;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      border-radius: 8px;
+    }
+    .flight-list {
+      margin-bottom: 20px;
+    }
+    .flight {
+      padding: 10px;
+      border-bottom: 1px solid #ddd;
+    }
+    .flight:last-child {
+      border-bottom: none;
+    }
+    .error {
+      color: red;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    input[type="text"],
+    input[type="datetime-local"],
+    input[type="number"],
+    select {
+      width: 100%;
+      max-width: 400px;
+      padding: 10px;
+      margin: 5px 0;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    button {
+      background-color: #5cb85c;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #4cae4c;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <h1>Flights</h1>
+
+  <div th:if="${param.error != null}" class="error">
+    <p>Ошибка: Необходимо выбрать направление!</p>
+  </div>
+
+  <div class="flight-list" th:each="flight : ${flights}">
+    <div class="flight">
+      <span th:text="'ID: ' + ${flight.flightId}"></span><br>
+      <span th:text="'Авиакомпания: ' + ${flight.airline}"></span><br>
+      <span th:text="'Откуда: ' + (${flight.fromDestination != null} ? ${flight.fromDestination.name} : 'Не указано')"></span><br>
+      <span th:text="'Куда: ' + (${flight.toDestination != null} ? ${flight.toDestination.name} : 'Не указано')"></span><br>
+      <span th:text="'Время вылета: ' + ${flight.departureTime}"></span><br>
+      <span th:text="'Время прилета: ' + ${flight.arrivalTime}"></span><br>
+      <span th:text="'Цена: ' + ${flight.price}"></span><br>
+      <hr>
+    </div>
+  </div>
+
+  <h2>Add Flight</h2>
+  <form th:action="@{/api/flights}" method="post">
+    <input type="text" name="airline" placeholder="Авиакомпания" required>
+
+    <label for="fromDestination">Откуда:</label>
+    <select id="fromDestination" name="fromDestinationId" required>
+      <option value="" disabled selected>Выберите направление вылета</option>
+      <option th:each="destination : ${destinations}"
+              th:value="${destination.destinationId}"
+              th:text="${destination.name}"></option>
+    </select>
+
+    <label for="toDestination">Куда:</label>
+    <select id="toDestination" name="toDestinationId" required>
+      <option value="" disabled selected>Выберите направление прилета</option>
+      <option th:each="destination : ${destinations}"
+              th:value="${destination.destinationId}"
+              th:text="${destination.name}"></option>
+    </select>
+
+    <input type="datetime-local" name="departureTime" required>
+    <input type="datetime-local" name="arrivalTime" required>
+    <input type="number" name="price" placeholder="Цена" step="0.01" required>
+
+    <button type="submit">Добавить</button>
+  </form>
+</div>
+</body>
+</html>

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Payments Page</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f4;
+    }
+    h1, h2 {
+      text-align: center;
+      color: #333;
+    }
+    .container {
+      width: 80%;
+      margin: 0 auto;
+      padding: 20px;
+      background: white;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      border-radius: 8px;
+    }
+    .payment-list {
+      margin-bottom: 20px;
+    }
+    .payment {
+      padding: 10px;
+      border-bottom: 1px solid #ddd;
+    }
+    .payment:last-child {
+      border-bottom: none;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    input[type="number"],
+    input[type="text"] {
+      width: 100%;
+      max-width: 400px;
+      padding: 10px;
+      margin: 5px 0;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    button {
+      background-color: #5cb85c;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #4cae4c;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <h1>Payments</h1>
+  <div class="payment-list" th:each="payment : ${payments}">
+    <div class="payment">
+      <span th:text="'ID: ' + ${payment.paymentId}"></span><br>
+      <span th:text="'Amount: ' + ${payment.amount}"></span><br>
+      <span th:text="'Method: ' + ${payment.paymentMethod}"></span>
+    </div>
+  </div>
+
+  <h2>Add Payment</h2>
+  <form action="/api/payments" method="post">
+    <input type="number" name="booking_id" placeholder="Booking ID" required>
+    <input type="number" name="amount" placeholder="Amount" required>
+    <input type="text" name="method" placeholder="Тип оплаты" required>
+    <button type="submit">Отправить платеж</button>
+  </form>
+</div>
+</body>
+</html>
